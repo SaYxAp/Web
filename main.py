@@ -61,10 +61,9 @@ def login():
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
 
-@app.route("/")
 @app.route("/index")
 def index():
-    return f'Добро пожаловать'
+    return render_template('main_page.html', title='Главная страница')
 
 
 
