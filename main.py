@@ -14,6 +14,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 db_session.global_init("db/blogs.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
+ac_pos = 0
 
 
 @login_manager.user_loader
@@ -29,12 +30,12 @@ def reqister():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Пароли не совпадают")
+                                   message="Пароли не совпадают", ak=ac_pos)
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Такой пользователь уже есть")
+                                   message="Такой пользователь уже есть", ak=ac_pos)
         user = User(
             name=form.name.data,
             email=form.email.data,
@@ -44,27 +45,49 @@ def reqister():
         db_sess.add(user)
         db_sess.commit()
         return redirect('/login')
-    return render_template('register.html', title='Регистрация', form=form)
+    return render_template('register.html', title='Регистрация', form=form, ak=ac_pos)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global ac_pos
     form = LoginForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/index")
+            ac_pos = 1
+            return redirect("/main_page")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
-                               form=form)
-    return render_template('login.html', title='Авторизация', form=form)
+                               form=form, ak=ac_pos)
+    return render_template('login.html', title='Авторизация', form=form, ak=ac_pos)
 
-@app.route("/index")
-def index():
-    return render_template('main_page.html', title='Главная страница')
 
+@app.route("/main_page")
+def main_page():
+    return render_template('main_page.html', title='Главная страница', ak=ac_pos)
+
+
+@app.route("/menu")
+def menu():
+    return render_template('menu.html', title='Меню', ak=ac_pos)
+
+
+@app.route("/stock")
+def stock():
+    return render_template('stock.html', title='Акции', ak=ac_pos)
+
+
+@app.route("/cart")
+def cart():
+    return render_template('cart.html', title='Корзина', ak=ac_pos)
+
+
+@app.route("/profile")
+def prof():
+    return render_template('profile.html', title='Профиль', ak=ac_pos)
 
 
 if __name__ == '__main__':
