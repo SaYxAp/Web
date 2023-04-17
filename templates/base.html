@@ -9,14 +9,25 @@
           crossorigin="anonymous">
     <title>{{title}}</title>
 </head>
-<body>
+<body style="background-color:#e8e3cf">
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">𓆩 🆅🅺🆄🆂🅽🅰🅸 🆉🅷🅸🆉🅽 𓆪</a>
+    <nav class="navbar navbar-light " style = "background-color: #473a33">
+        <a class="navbar-brand" href="http://127.0.0.1:8080/main_page" style = "color: #edd8be">𓆩 🆅🅺🆄🆂🅽🅰🅸 🆉🅷🅸🆉🅽 𓆪</a>
+        <a></a><a></a><a></a><a></a>
+        <a  href="http://127.0.0.1:8080/menu" style = "color: #edd8be">Меню</a>
+        <a  href="http://127.0.0.1:8080/stock" style = "color: #edd8be">Акции</a>
+        {% if ak == 0 %}
+            <a  href="http://127.0.0.1:8080/login" style = "color: #edd8be">Авторизация</a>
+            <a  href="http://127.0.0.1:8080/register" style = "color: #edd8be">Регистрация</a>
+        {% elif ak == 1 %}
+            <a  href="http://127.0.0.1:8080/profile" style = "color: #edd8be">Профиль</a>
+        {% endif %}
+        <a  href="http://127.0.0.1:8080/cart" style = "color: #F2D3B1">Корзина</a>
+        <a></a>
     </nav>
 </header>
 <!-- Begin page content -->
-<main role="main" class="container">
+<main role="main" class="container" style="width:70%;position: fixed;top: 10%;left:15%;margin:auto auto auto auto;background: #473a33;color:#edd8be">
     {% block content %}{% endblock %}
 </main>
 </body>
