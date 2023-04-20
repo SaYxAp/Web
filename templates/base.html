@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <style>
+      .outercontainer{
+      width: 5%;
+      min-height: 5vh;
+      position: relative;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"
@@ -27,8 +36,11 @@
     </nav>
 </header>
 <!-- Begin page content -->
-<main role="main" class="container" style="width:70%;position: fixed;top: 10%;left:15%;margin:auto auto auto auto;background: #473a33;color:#edd8be">
+<div class="outercontainer" id=""scrl1></div>
+
+<main role="main" class="container" style="width:70%;top: 10%;left:15%;margin:auto auto auto auto;background: #473a33;color:#edd8be">
     {% block content %}{% endblock %}
 </main>
+<div><p><p><h4 align="center" style="color: #473a33">OOO "nigers"</h4></div>
 </body>
 </html>
