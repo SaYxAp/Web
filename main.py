@@ -87,8 +87,12 @@ def cart():
 
 @app.route("/profile")
 def prof():
-    return render_template('profile.html', title='Профиль', ak=ac_pos)
+    db_sess = db_session.create_session()
+    us_id = current_user.get_id()
+    user = db_sess.query(User).filter(User.id == us_id).first()
+    return render_template('profile.html', title='Профиль', ak=ac_pos, user=user)
 
 
 if __name__ == '__main__':
    app.run(port=8080, host='127.0.0.1')
+
