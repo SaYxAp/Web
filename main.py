@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, render_template, request, make_response, url_for
+from flask import Flask, render_template, request, session
 from flask_login import LoginManager, login_user, login_required, current_user
 from flask import abort
 from werkzeug.utils import redirect
@@ -15,7 +15,6 @@ db_session.global_init("db/blogs.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 ac_pos = 0
-max_cont_len = 1024 * 1024
 
 
 @login_manager.user_loader
@@ -66,6 +65,7 @@ def login():
     return render_template('login.html', title='Авторизация', form=form, ak=ac_pos)
 
 
+@app.route("/")
 @app.route("/main_page")
 def main_page():
     return render_template('main_page.html', title='Главная страница', ak=ac_pos)
@@ -76,9 +76,16 @@ def menu():
     return render_template('menu.html', title='Меню', ak=ac_pos)
 
 
+@app.route("/stock")
+def stock():
+    return render_template('stock.html', title='Акции', ak=ac_pos)
+
+
 @app.route("/cart")
 def cart():
-    return render_template('cart.html', title='Корзина', ak=ac_pos)
+    new_data = list(map(lambda x: x.split('='), session.get('purchase_data', "").split('/')))[1:]
+    new_data = map(lambda x: [x[0], x[1] + 'руб.', f'http://127.0.0.1:8080/delete_cookie/{x[0]}={x[1]}'], new_data)
+    return render_template('cart.html', title='Корзина', ak=ac_pos, data=new_data)
 
 
 @app.route("/profile")
@@ -89,12 +96,19 @@ def prof():
     return render_template('profile.html', title='Профиль', ak=ac_pos, user=user)
 
 
-@app.route('/userava')
-def userava():
-    img = url_for('static', filename='img/shish.png')
-    return img
+@app.route('/cookie/<data>')
+def cookie(data):
+    purchase_data = session.get('purchase_data', "")
+    session['purchase_data'] = purchase_data + '/' + data
+    print(session['purchase_data'])
+    return redirect("http://127.0.0.1:8080/menu", code=302)
+
+
+@app.route('/delete_cookie')
+def delete_cookie():
+    session['purchase_data'] = ""
+    return redirect("http://127.0.0.1:8080/cart", code=302)
 
 
 if __name__ == '__main__':
    app.run(port=8080, host='127.0.0.1')
-
