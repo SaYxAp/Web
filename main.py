@@ -75,11 +75,6 @@ def menu():
     return render_template('menu.html', title='Меню', ak=ac_pos)
 
 
-@app.route("/stock")
-def stock():
-    return render_template('stock.html', title='Акции', ak=ac_pos)
-
-
 @app.route("/cart")
 def cart():
     return render_template('cart.html', title='Корзина', ak=ac_pos)
