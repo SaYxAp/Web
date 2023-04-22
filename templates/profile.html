@@ -4,11 +4,13 @@
 <title>{{ title }}</title>
 
 <div class="container" style="width:70%;top: 10%;left:15%;margin:auto auto auto auto;background: #473a33;color:#edd8be">
-    <hi>{{ title }}</hi>
-    <h2>{{ user.name }}</h2>
-    <p>Email: {{ user.email}}</p>
-    <p>Чем я хорош: {{ user.about}}</p>
-    <p>Мой первый вход: {{ user.created_date.date() }}</p>
+    <h1 align="center">{{ title }}</h1>
+    <h2 align="center">{{ user.name }}</h2>
+    <img align="center" src="static/img/shish.png">
+    <h5><h4><p>Email: </h4>{{ user.email}}</p>
+    <h4><p>Немного о себе: </h4>{{ user.about}}</p>
+    <h4><p>Мой первый вход: </h4>{{ user.created_date.date() }}</p></h5>
+    <p>.</p>
 </div>
 {% endblock %}
 
