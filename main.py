@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response, url_for
 from flask_login import LoginManager, login_user, login_required, current_user
 from flask import abort
 from werkzeug.utils import redirect
@@ -15,6 +15,7 @@ db_session.global_init("db/blogs.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 ac_pos = 0
+max_cont_len = 1024 * 1024
 
 
 @login_manager.user_loader
@@ -86,6 +87,12 @@ def prof():
     us_id = current_user.get_id()
     user = db_sess.query(User).filter(User.id == us_id).first()
     return render_template('profile.html', title='Профиль', ak=ac_pos, user=user)
+
+
+@app.route('/userava')
+def userava():
+    img = url_for('static', filename='img/shish.png')
+    return img
 
 
 if __name__ == '__main__':
