@@ -45,7 +45,7 @@ def reqister():
         db_sess.add(user)
         db_sess.commit()
         return redirect('/login')
-    return render_template('register.html', title='Регистрация', form=form, ak=ac_pos)
+    return render_template('register.html', title='Регистрация', form=form, ak=0)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -58,34 +58,32 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             ac_pos = 1
-            return redirect("/main_page")
+            return redirect("/menu")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form, ak=ac_pos)
-    return render_template('login.html', title='Авторизация', form=form, ak=ac_pos)
+    return render_template('login.html', title='Авторизация', form=form, ak=0)
 
 
 @app.route("/")
-@app.route("/main_page")
-def main_page():
-    return render_template('main_page.html', title='Главная страница', ak=ac_pos)
-
-
 @app.route("/menu")
 def menu():
-    return render_template('menu.html', title='Меню', ak=ac_pos)
+    db_sess = db_session.create_session()
+    us_id = current_user.get_id()
+    user = db_sess.query(User).filter(User.id == us_id).first()
+    return render_template('menu.html', title='Меню', ak=ac_pos, user=user)
 
 
-@app.route("/stock")
-def stock():
-    return render_template('stock.html', title='Акции', ak=ac_pos)
 
 
 @app.route("/cart")
 def cart():
+    db_sess = db_session.create_session()
+    us_id = current_user.get_id()
+    user = db_sess.query(User).filter(User.id == us_id).first()
     new_data = list(map(lambda x: x.split('='), session.get('purchase_data', "").split('/')))[1:]
     new_data = map(lambda x: [x[0], x[1] + 'руб.', f'http://127.0.0.1:8080/delete_cookie/{x[0]}={x[1]}'], new_data)
-    return render_template('cart.html', title='Корзина', ak=ac_pos, data=new_data)
+    return render_template('cart.html', title='Корзина', ak=ac_pos, data=new_data, user=user)
 
 
 @app.route("/profile")
