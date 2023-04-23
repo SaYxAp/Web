@@ -91,6 +91,7 @@ def prof():
     db_sess = db_session.create_session()
     us_id = current_user.get_id()
     user = db_sess.query(User).filter(User.id == us_id).first()
+    session['purchase_data'] = ''
     return render_template('profile.html', title='Профиль', ak=ac_pos, user=user)
 
 
