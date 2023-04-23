@@ -100,14 +100,14 @@ def cookie(data):
     purchase_data = session.get('purchase_data', "")
     session['purchase_data'] = purchase_data + '/' + data
     print(session['purchase_data'])
-    return redirect("http://127.0.0.1:8080/menu", code=302)
+    return redirect("https://sunset-slow-drop.glitch.me/menu", code=302)
 
 
 @app.route('/delete_cookie')
 def delete_cookie():
     session['purchase_data'] = ""
-    return redirect("http://127.0.0.1:8080/cart", code=302)
+    return redirect("https://sunset-slow-drop.glitch.me/cart", code=302)
 
 
 if __name__ == '__main__':
-   app.run(port=8080, host='127.0.0.1')
+   app.run(port=5000, host='127.0.0.1')
