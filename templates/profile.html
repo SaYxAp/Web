@@ -7,9 +7,14 @@
     <h1 align="center">{{ title }}</h1>
     <h2 align="center">{{ user.name }}</h2>
     <img align="center" src="static/img/shish.png">
-    <h5><h4><p>Email: </h4>{{ user.email}}</p>
-    <h4><p>Немного о себе: </h4>{{ user.about}}</p>
-    <h4><p>Мой первый вход: </h4>{{ user.created_date.date() }}</p></h5>
-    <td><a href="http://127.0.0.1:8080/login">Смена акаунта</a></td>
+    <h5>
+        <h4><p>Email:</h4>
+        {{ user.email}}</p>
+        <h4><p>Немного о себе:</h4>
+        {{ user.about}}</p>
+        <h4><p>Мой первый вход:</h4>
+        {{ user.created_date.date() }}</p>
+    </h5>
+    <td><a href="https://sunset-slow-drop.glitch.me/login">Смена акаунта</a></td>
 </div>
 {% endblock %}
