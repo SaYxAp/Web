@@ -61,7 +61,7 @@ def login():
             return redirect("/menu")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
-                               form=form, ak=ac_pos)
+                               form=form, ak=0)
     return render_template('login.html', title='Авторизация', form=form, ak=0)
 
 
